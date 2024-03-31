@@ -22,6 +22,12 @@ public class ArgTest {
     }
     static record BooleanOption(@Option("l")boolean log){}
     //TODO:  -Integer -p 8080
+    @Test
+    public void should_set_int_option_if_use_p(){
+        IntegerOption option = Args.parse(IntegerOption.class,"-p","8080");
+        assertEquals(8080,option.port());
+    }
+    static record IntegerOption(@Option("p") int port){}
     //TODO:  -String -d /usr/logs
     //TODO: multi options: -l -p 8080 -d /usr/logs
     // sad path:

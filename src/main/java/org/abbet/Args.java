@@ -12,9 +12,18 @@ public class Args {
 
             Constructor<?> constructor = optionsClass.getDeclaredConstructors()[0];
             Parameter[] parameters = constructor.getParameters();
-            Option option = parameters[0].getAnnotation(Option.class);
+            Parameter parameter = parameters[0];
+            Object value = null;
+            Option option = parameter.getAnnotation(Option.class);
             List<String> arguments = Arrays.asList(args);
-            return (T) constructor.newInstance(arguments.contains("-" + option.value()));
+            if(parameter.getType() == boolean.class){
+                value = arguments.contains("-" + option.value());
+            }
+            if(parameter.getType() == int.class){
+                int index = arguments.indexOf("-"+option.value());
+                value = Integer.parseInt(arguments.get(index+1));
+            }
+            return (T) constructor.newInstance(value);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
