@@ -21,7 +21,6 @@ public class ArgTest {
         assertFalse(option.log());
     }
     static record BooleanOption(@Option("l")boolean log){}
-    //TODO:  -Integer -p 8080
     @Test
     public void should_set_int_option_if_use_p(){
         IntegerOption option = Args.parse(IntegerOption.class,"-p","8080");
@@ -29,6 +28,12 @@ public class ArgTest {
     }
     static record IntegerOption(@Option("p") int port){}
     //TODO:  -String -d /usr/logs
+    @Test
+    public void should_set_string_option(){
+        StringOption option = Args.parse(StringOption.class,"-d","/usr/logs");
+        assertEquals("/usr/logs",option.directory());
+    }
+    static record StringOption(@Option("d")String directory){}
     //TODO: multi options: -l -p 8080 -d /usr/logs
     // sad path:
     //TODO: -bool -l t / -l t f
