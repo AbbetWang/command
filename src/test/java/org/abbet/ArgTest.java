@@ -27,14 +27,12 @@ public class ArgTest {
         assertEquals(8080,option.port());
     }
     static record IntegerOption(@Option("p") int port){}
-    //TODO:  -String -d /usr/logs
     @Test
     public void should_set_string_option(){
         StringOption option = Args.parse(StringOption.class,"-d","/usr/logs");
         assertEquals("/usr/logs",option.directory());
     }
     static record StringOption(@Option("d")String directory){}
-    //TODO: multi options: -l -p 8080 -d /usr/logs
     @Test
     public void should_parse_multi_option(){
         MultiOptions options = Args.parse(MultiOptions.class,"-l","-p","8080","-d","/usr/logs");
