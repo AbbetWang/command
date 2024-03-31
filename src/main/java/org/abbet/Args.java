@@ -12,7 +12,7 @@ public class Args {
             Constructor<?> constructor = optionsClass.getDeclaredConstructors()[0];
             Object[] values = Arrays.stream(constructor.getParameters()).map(it -> parseOption(it, arguments)).toArray();
             return (T) constructor.newInstance(values);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -20,16 +20,16 @@ public class Args {
     private static Object parseOption(Parameter parameter, List<String> arguments) {
         Object value = null;
         Option option = parameter.getAnnotation(Option.class);
-        if(parameter.getType() == boolean.class){
+        if (parameter.getType() == boolean.class) {
             value = arguments.contains("-" + option.value());
         }
-        if(parameter.getType() == int.class){
-            int index = arguments.indexOf("-"+option.value());
-            value = Integer.parseInt(arguments.get(index+1));
+        if (parameter.getType() == int.class) {
+            int index = arguments.indexOf("-" + option.value());
+            value = Integer.parseInt(arguments.get(index + 1));
         }
-        if(parameter.getType() == String.class){
-            int index = arguments.indexOf("-"+option.value());
-            value = String.valueOf(arguments.get(index+1));
+        if (parameter.getType() == String.class) {
+            int index = arguments.indexOf("-" + option.value());
+            value = String.valueOf(arguments.get(index + 1));
         }
         return value;
     }
