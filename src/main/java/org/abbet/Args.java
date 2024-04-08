@@ -21,13 +21,13 @@ public class Args {
         Object value = null;
         Option option = parameter.getAnnotation(Option.class);
         if (parameter.getType() == boolean.class) {
-            value = new BooleanParser().parse(arguments, option);
+            value = new BooleanOptionParser().parse(arguments, option);
         }
         if (parameter.getType() == int.class) {
-            value = new IntParser().parse(arguments, option);
+            value = new IntOptionParser().parse(arguments, option);
         }
         if (parameter.getType() == String.class) {
-            value = new StringParser().parse(arguments, option);
+            value = new StringOptionParser().parse(arguments, option);
         }
         return value;
     }
@@ -36,7 +36,7 @@ public class Args {
         Object parse(List<String> arguments, Option option);
     }
 
-    static class StringParser implements OptionParse {
+    static class StringOptionParser implements OptionParse {
 
         @Override
         public Object parse(List<String> arguments, Option option) {
@@ -45,7 +45,7 @@ public class Args {
         }
     }
 
-    static class IntParser implements OptionParse {
+    static class IntOptionParser implements OptionParse {
 
         @Override
         public Object parse(List<String> arguments, Option option) {
@@ -54,7 +54,7 @@ public class Args {
         }
     }
 
-    static class BooleanParser implements OptionParse {
+    static class BooleanOptionParser implements OptionParse {
 
         @Override
         public Object parse(List<String> arguments, Option option) {
