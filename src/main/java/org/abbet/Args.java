@@ -18,18 +18,24 @@ public class Args {
     }
 
     private static Object parseOption(Parameter parameter, List<String> arguments) {
-        Object value = null;
         Option option = parameter.getAnnotation(Option.class);
-        if (parameter.getType() == boolean.class) {
-            value = new BooleanOptionParser().parse(arguments, option);
+
+        return getOptionParse(parameter.getType()).parse(arguments, option);
+    }
+
+    private static OptionParse getOptionParse(Class<?> type) {
+        OptionParse parser = null;
+
+        if (type == boolean.class) {
+            parser = new BooleanOptionParser();
         }
-        if (parameter.getType() == int.class) {
-            value = new IntOptionParser().parse(arguments, option);
+        if (type == int.class) {
+            parser = new IntOptionParser();
         }
-        if (parameter.getType() == String.class) {
-            value = new StringOptionParser().parse(arguments, option);
+        if (type == String.class) {
+            parser = new StringOptionParser();
         }
-        return value;
+        return parser;
     }
 
     interface OptionParse {
