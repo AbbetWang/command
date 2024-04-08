@@ -21,7 +21,7 @@ public class Args {
         Object value = null;
         Option option = parameter.getAnnotation(Option.class);
         if (parameter.getType() == boolean.class) {
-            value = arguments.contains("-" + option.value());
+            value = parseBoolean(arguments, option);
         }
         if (parameter.getType() == int.class) {
             value = parseInt(arguments, option);
@@ -46,8 +46,8 @@ public class Args {
         return Integer.parseInt(arguments.get(index + 1));
     }
 
-    private static boolean parseBoolean(List<String> arguments, Option option) {
-        return arguments.contains("-" + option.value());
+    private static Object parseBoolean(List<String> arguments, Option option) {
+        return new BooleanParser().parse(arguments, option);
     }
 
     static class BooleanParser implements OptionParse {
