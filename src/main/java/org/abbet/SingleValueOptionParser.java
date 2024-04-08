@@ -3,16 +3,16 @@ package org.abbet;
 import java.util.List;
 import java.util.function.Function;
 
-class IntOptionParser implements OptionParse {
+class SingleValueOptionParser<T> implements OptionParse {
 
-    Function<String, Object> valueParser;
+    Function<String, T> valueParser;
 
-    public IntOptionParser(Function<String, Object> valueParser) {
+    public SingleValueOptionParser(Function<String, T> valueParser) {
         this.valueParser = valueParser;
     }
 
     @Override
-    public Object parse(List<String> arguments, Option option) {
+    public T parse(List<String> arguments, Option option) {
         int index = arguments.indexOf("-" + option.value());
         String value = arguments.get(index + 1);
         return valueParser.apply(value);
