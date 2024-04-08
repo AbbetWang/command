@@ -3,7 +3,7 @@ package org.abbet;
 import java.util.List;
 import java.util.function.Function;
 
-class SingleValueOptionParser<T> implements OptionParse {
+class SingleValueOptionParser<T> implements OptionParse<T> {
 
     Function<String, T> valueParser;
 
