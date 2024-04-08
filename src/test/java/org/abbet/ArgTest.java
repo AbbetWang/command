@@ -54,19 +54,7 @@ public class ArgTest {
     static record MultiOptions(@Option("l") boolean logging, @Option("p") int port, @Option("d") String directory) {
     }
 
-
-    //    BooleanOptionParserTest
-    // sad path:
-    //TODO: -bool -l t / -l t f
-    //TODO: - bool : false
-
-    // SingleValueOptionParserTest
-    // sad path:
-    //TODO: - int -p 8080 9080
-    //TODO: -string -d /-d /usr/logs /usr/vars
-    // default value
-    //TODO: -int :0
-    //TODO: - string: ""
+    
     @Test
     @Disabled
     public void should_2() {
