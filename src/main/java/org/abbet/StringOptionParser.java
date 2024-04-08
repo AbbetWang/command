@@ -1,12 +1,8 @@
 package org.abbet;
 
-import java.util.List;
-
-class StringOptionParser implements OptionParse {
-
-    @Override
-    public Object parse(List<String> arguments, Option option) {
-        int index = arguments.indexOf("-" + option.value());
-        return String.valueOf(arguments.get(index + 1));
+class StringOptionParser extends IntOptionParser {
+    
+    public StringOptionParser() {
+        super(String::valueOf);
     }
 }
