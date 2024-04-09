@@ -20,15 +20,13 @@ public class SingleValueOptionParserTest {
 
     @Test
     public void should_set_default_value_for_integer_option() {
-        Integer got = new SingleValueOptionParser<>(Integer::parseInt, "0").parse(asList(), option("p"));
-        assertEquals(0, got);
+        assertEquals(0, new SingleValueOptionParser<>(Integer::parseInt, 0).parse(asList(), option("p")));
     }
 
     // default value
     //TODO: - string: ""
     @Test
     public void should_set_default_value_for_string_option() {
-        String got = new SingleValueOptionParser<>(String::valueOf, "").parse(asList(), option("d"));
-        assertEquals("", got);
+        assertEquals("", new SingleValueOptionParser<>(String::valueOf, "").parse(asList(), option("d")));
     }
 }
