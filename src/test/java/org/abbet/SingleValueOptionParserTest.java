@@ -20,14 +20,13 @@ public class SingleValueOptionParserTest {
 
         assertEquals("p", e.getOption());
     }
+    // TODO: insufficientArguments
 
     @Test
     public void should_set_default_value_for_integer_option() {
         assertEquals(0, new SingleValueOptionParser<Integer>(Integer::parseInt, (Integer) 0).parse(asList(), option("p")));
     }
 
-    // default value
-    //TODO: - string: ""
     @Test
     public void should_set_default_value_for_string_option() {
         assertEquals("", new SingleValueOptionParser<String>(String::valueOf, "").parse(asList(), option("d")));
