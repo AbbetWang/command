@@ -1,5 +1,6 @@
 package org.abbet;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SingleValueOptionParserTest {
-    
+
     @Test
     public void should_not_accept_extra_argument_for_integer_option() {
         TooManyArgumentsException e = assertThrows(TooManyArgumentsException.class, () -> {
@@ -17,8 +18,15 @@ public class SingleValueOptionParserTest {
 
         assertEquals("p", e.getOption());
     }
+
+    //TODO: -int :0
+    @Test
+    @Disabled
+    public void should_set_default_value_for_integer_option() {
+        Integer got = new SingleValueOptionParser<>(Integer::parseInt).parse(asList(), option("p"));
+        assertEquals(0, got);
+    }
     //TODO: -string -d /-d /usr/logs /usr/vars
     // default value
-    //TODO: -int :0
     //TODO: - string: ""
 }
