@@ -21,7 +21,6 @@ public class SingleValueOptionParserTest {
 
     //TODO: -int :0
     @Test
-    @Disabled
     public void should_set_default_value_for_integer_option() {
         Integer got = new SingleValueOptionParser<>(Integer::parseInt).parse(asList(), option("p"));
         assertEquals(0, got);
