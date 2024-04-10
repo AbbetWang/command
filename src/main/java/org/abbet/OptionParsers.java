@@ -61,7 +61,7 @@ class OptionParsers {
 
     private static List<String> values(List<String> arguments, int index) {
         int followingFlagIndex = IntStream.range(index + 1, arguments.size())
-                .filter(it -> arguments.get(it).startsWith("-"))
+                .filter(it -> arguments.get(it).matches("^-[A-Za-z-]+$"))
                 .findFirst()
                 .orElse(arguments.size());
         List<String> values = arguments.subList(index + 1, followingFlagIndex);
