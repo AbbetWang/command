@@ -2,6 +2,7 @@ package org.abbet;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 class SingleValueOptionParser<T> implements OptionParse<T> {
 
@@ -19,10 +20,16 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
         if (index == -1) {
             return defaultValue;
         }
-        if (index + 1 == arguments.size() || arguments.get(index + 1).startsWith("-")) {
+        int followingFlagIndex = IntStream.range(index + 1, arguments.size())
+                .filter(it -> arguments.get(it).startsWith("-"))
+                .findFirst()
+                .orElse(arguments.size());
+        List<String> values = arguments.subList(index + 1, followingFlagIndex);
+
+        if (values.size() < 1) {
             throw new InsufficientArgumentException(option.value());
         }
-        if (index + 2 < arguments.size() && !arguments.get(index + 2).startsWith("-")) {
+        if (values.size() > 1) {
             throw new TooManyArgumentsException(option.value());
         }
         return valueParser.apply(arguments.get(index + 1));
