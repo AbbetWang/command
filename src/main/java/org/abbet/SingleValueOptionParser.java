@@ -15,6 +15,11 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
         this.defaultValue = defaultValue;
     }
 
+    public static OptionParse<Boolean> bool() {
+        return (arguments, option) -> values(arguments, option, 0)
+                .map(it -> true).orElse(false);
+    }
+
     @Override
     public T parse(List<String> arguments, Option option) {
         Optional<List<String>> argumentList;
