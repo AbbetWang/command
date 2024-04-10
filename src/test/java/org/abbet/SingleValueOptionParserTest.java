@@ -55,4 +55,12 @@ public class SingleValueOptionParserTest {
         Function<String, Object> whatever = (it) -> null;
         assertSame(defaultValue, new SingleValueOptionParser<>(defaultValue, whatever).parse(asList(), option("p")));
     }
+
+    @Test
+    public void should_throw_illegal_value_exception_if_value_not_parsed() {
+        Object defaultValue = new Object();
+        assertThrows(IllegalValueException.class, () -> {
+            new SingleValueOptionParser<>(defaultValue, Integer::parseInt).parse(asList("-p", "a"), option("p"));
+        });
+    }
 }

@@ -29,11 +29,15 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
             throw new TooManyArgumentsException(option.value());
         }
         String value = values.get(0);
-        return parseValue(value);
+        return parseValue(option, value);
     }
 
-    private T parseValue(String value) {
-        return valueParser.apply(value);
+    private T parseValue(Option option, String value) {
+        try {
+            return valueParser.apply(value);
+        } catch (Exception e) {
+            throw new IllegalValueException(option.value(), value);
+        }
     }
 
     static List<String> values(List<String> arguments, int index) {
