@@ -6,24 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ArgTest {
-    
-    @Test
-    public void should_set_int_option_if_use_p() {
-        IntegerOption option = Args.parse(IntegerOption.class, "-p", "8080");
-        assertEquals(8080, option.port());
-    }
-
-    static record IntegerOption(@Option("p") int port) {
-    }
-
-    @Test
-    public void should_set_string_option() {
-        StringOption option = Args.parse(StringOption.class, "-d", "/usr/logs");
-        assertEquals("/usr/logs", option.directory());
-    }
-
-    static record StringOption(@Option("d") String directory) {
-    }
 
     @Test
     public void should_parse_multi_option() {

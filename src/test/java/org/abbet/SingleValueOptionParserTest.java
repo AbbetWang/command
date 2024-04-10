@@ -1,5 +1,6 @@
 package org.abbet;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,9 +15,6 @@ import static org.abbet.BooleanOptionParserTest.option;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleValueOptionParserTest {
-
-    private Object whatever = new Object();
-    private Function<String, Object> parser = (it) -> null;
 
     @Test
     public void should_not_accept_extra_argument_for_single_option() {
@@ -44,13 +42,18 @@ public class SingleValueOptionParserTest {
     }
 
     @Test
-    public void should_set_int_option_if_use_p() {
-        ArgTest.IntegerOption option = Args.parse(ArgTest.IntegerOption.class, "-p", "8080");
-        assertEquals(8080, option.port());
+    public void should_parse_value_if_flag_present() {
+        Object parsed = new Object();
+        Function<String, Object> parser = (it) -> parsed;
+        Object whatever = new Object();
+        Object got = new SingleValueOptionParser<>(parser, whatever).parse(asList("-p", "8080"), option("p"));
+        assertSame(parsed, got);
     }
 
     @Test
     public void should_set_default_value_for_single_option() {
-        assertSame(whatever, new SingleValueOptionParser<>(parser, whatever).parse(asList(), option("p")));
+        Object defaultValue = new Object();
+        Function<String, Object> whatever = (it) -> null;
+        assertSame(defaultValue, new SingleValueOptionParser<>(whatever, defaultValue).parse(asList(), option("p")));
     }
 }
