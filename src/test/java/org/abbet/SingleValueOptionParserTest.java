@@ -6,12 +6,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static org.abbet.BooleanOptionParserTest.option;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleValueOptionParserTest {
 
@@ -41,12 +41,10 @@ public class SingleValueOptionParserTest {
     }
 
     @Test
-    public void should_set_default_value_for_integer_option() {
-        assertEquals(0, new SingleValueOptionParser<>(Integer::parseInt, 0).parse(asList(), option("p")));
-    }
-
-    @Test
-    public void should_set_default_value_for_string_option() {
-        assertEquals("", new SingleValueOptionParser<>(String::valueOf, "").parse(asList(), option("d")));
+    public void should_set_default_value_for_single_option() {
+        Object whatever = new Object();
+        Function<String, Object> parser = (it) -> null;
+        Object got = new SingleValueOptionParser<>(parser, whatever).parse(asList(), option("p"));
+        assertSame(whatever, got);
     }
 }
