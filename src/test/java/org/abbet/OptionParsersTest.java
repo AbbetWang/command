@@ -92,6 +92,18 @@ public class OptionParsersTest {
 
     }
 
+    @Nested
+    class ListOptionParser {
+        //TODO: -g "this" "is" {"this", is"}
+        @Test
+        public void should_parse_list_value() {
+            assertArrayEquals(new String[]{"this", "is"}, OptionParsers.list(String[]::new, String::valueOf).parse(asList("-g", "this", "is"), option("g")));
+
+        }
+        //TODO: default value []
+        //TODO: -d a throw exception
+    }
+
     static Option option(String value) {
         return new Option() {
 
