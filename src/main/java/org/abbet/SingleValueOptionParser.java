@@ -28,7 +28,12 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
         if (values.size() > expectedSize) {
             throw new TooManyArgumentsException(option.value());
         }
-        return valueParser.apply(values.get(0));
+        String value = values.get(0);
+        return parseValue(value);
+    }
+
+    private T parseValue(String value) {
+        return valueParser.apply(value);
     }
 
     static List<String> values(List<String> arguments, int index) {
