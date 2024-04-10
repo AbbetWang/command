@@ -22,6 +22,11 @@ public class BooleanOptionParserTest {
         assertFalse(new BooleanOptionParser().parse(asList(), option("l")));
     }
 
+    @Test
+    public void should_set_boolean_option_to_true_if_flag_present() {
+        assertTrue(new BooleanOptionParser().parse(asList("-l"), option("l")));
+    }
+
     static Option option(String value) {
         return new Option() {
 
