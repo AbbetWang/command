@@ -16,16 +16,16 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
 
     @Override
     public T parse(List<String> arguments, Option option) {
+        int expectedSize = 1;
         int index = arguments.indexOf("-" + option.value());
         if (index == -1) {
             return defaultValue;
         }
         List<String> values = values(arguments, index);
-
-        if (values.size() < 1) {
+        if (values.size() < expectedSize) {
             throw new InsufficientArgumentException(option.value());
         }
-        if (values.size() > 1) {
+        if (values.size() > expectedSize) {
             throw new TooManyArgumentsException(option.value());
         }
         return valueParser.apply(values.get(0));
