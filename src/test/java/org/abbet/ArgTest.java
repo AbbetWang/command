@@ -6,10 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ArgTest {
-    //-l -p 8080 -d /usr/logs
-    // [-l], [-p,8080] ,[-d, /usr/logs]
-    // {-l:[], -p:[8080], -d:[/usr/logs]}
-    // Single Option
     @Test
     public void should_set_boolean_option_to_true_if_flag_present() {
         BooleanOption option = Args.parse(BooleanOption.class, "-l");
@@ -54,7 +50,7 @@ public class ArgTest {
     static record MultiOptions(@Option("l") boolean logging, @Option("p") int port, @Option("d") String directory) {
     }
 
-    
+
     @Test
     @Disabled
     public void should_2() {
