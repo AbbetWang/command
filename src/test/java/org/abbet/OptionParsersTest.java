@@ -94,14 +94,25 @@ public class OptionParsersTest {
 
     @Nested
     class ListOptionParser {
-        //TODO: -g "this" "is" {"this", is"}
         @Test
         public void should_parse_list_value() {
             assertArrayEquals(new String[]{"this", "is"}, OptionParsers.list(String[]::new, String::valueOf).parse(asList("-g", "this", "is"), option("g")));
 
         }
-        //TODO: default value []
-        //TODO: -d a throw exception
+
+        @Test
+        public void should_set_default_value_to_emptyArray_as_default_value() {
+            String[] value = OptionParsers.list(String[]::new, String::valueOf).parse(asList(), option("g"));
+            assertEquals(0, value.length);
+        }
+
+
+        @Test
+        public void should_throw_illegal_value_exception_if_value_can_not_parsed() {
+            assertThrows(IllegalValueException.class, () -> {
+                OptionParsers.list(Integer[]::new, Integer::parseInt).parse(asList("-d", "a"), option("d"));
+            });
+        }
     }
 
     static Option option(String value) {
