@@ -1,6 +1,7 @@
 package org.abbet;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -16,20 +17,28 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
 
     @Override
     public T parse(List<String> arguments, Option option) {
+        Optional<List<String>> argumentList;
         int expectedSize = 1;
+        argumentList = values(arguments, option, expectedSize);
+        return argumentList.map(it -> parseValue(option, it.get(0))).orElse(defaultValue);
+    }
+
+    private Optional<List<String>> values(List<String> arguments, Option option, int expectedSize) {
+        Optional<List<String>> argumentList;
         int index = arguments.indexOf("-" + option.value());
         if (index == -1) {
-            return defaultValue;
+            argumentList = Optional.empty();
+        } else {
+            List<String> values = values(arguments, index);
+            if (values.size() < expectedSize) {
+                throw new InsufficientArgumentException(option.value());
+            }
+            if (values.size() > expectedSize) {
+                throw new TooManyArgumentsException(option.value());
+            }
+            argumentList = Optional.of(values);
         }
-        List<String> values = values(arguments, index);
-        if (values.size() < expectedSize) {
-            throw new InsufficientArgumentException(option.value());
-        }
-        if (values.size() > expectedSize) {
-            throw new TooManyArgumentsException(option.value());
-        }
-        String value = values.get(0);
-        return parseValue(option, value);
+        return argumentList;
     }
 
     private T parseValue(Option option, String value) {
