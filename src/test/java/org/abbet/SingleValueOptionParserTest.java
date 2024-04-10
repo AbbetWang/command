@@ -58,9 +58,9 @@ public class SingleValueOptionParserTest {
 
     @Test
     public void should_throw_illegal_value_exception_if_value_not_parsed() {
-        Object defaultValue = new Object();
+        Object whatever = new Object();
         assertThrows(IllegalValueException.class, () -> {
-            new SingleValueOptionParser<>(defaultValue, Integer::parseInt).parse(asList("-p", "a"), option("p"));
+            new SingleValueOptionParser<>(whatever, Integer::parseInt).parse(asList("-p", "a"), option("p"));
         });
     }
 }
