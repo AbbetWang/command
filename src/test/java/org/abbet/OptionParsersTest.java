@@ -62,9 +62,14 @@ public class OptionParsersTest {
         @Test
         public void should_throw_illegal_value_exception_if_value_not_parsed() {
             Object whatever = new Object();
-            assertThrows(IllegalValueException.class, () -> {
-                OptionParsers.unary(whatever, Integer::parseInt).parse(asList("-p", "a"), option("p"));
+            Function<String, Object> parser = (it) -> {
+                throw new RuntimeException();
+            };
+            IllegalValueException e = assertThrows(IllegalValueException.class, () -> {
+                OptionParsers.unary(whatever, parser).parse(asList("-p", "8080"), option("p"));
             });
+            assertEquals("p", e.getOption());
+            assertEquals("8080", e.getValue());
         }
     }
 
