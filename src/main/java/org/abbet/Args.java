@@ -1,12 +1,10 @@
 package org.abbet;
 
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Args {
     public static <T> T parse(Class<T> optionsClass, String... args) {
@@ -26,7 +24,7 @@ public class Args {
 
     private static Map<Class<?>, OptionParse> PARSERS = Map.of(
             boolean.class, new BooleanOptionParser(),
-            int.class, new SingleValueOptionParser<>(Integer::parseInt, 0),
-            String.class, new SingleValueOptionParser<>(String::valueOf, ""));
+            int.class, new SingleValueOptionParser<>(0, Integer::parseInt),
+            String.class, new SingleValueOptionParser<>("", String::valueOf));
 
 }

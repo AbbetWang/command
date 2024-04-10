@@ -1,6 +1,5 @@
 package org.abbet;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,7 +18,7 @@ public class SingleValueOptionParserTest {
     @Test
     public void should_not_accept_extra_argument_for_single_option() {
         TooManyArgumentsException e = assertThrows(TooManyArgumentsException.class, () -> {
-            new SingleValueOptionParser<Serializable>(Integer::parseInt, 0).parse(asList("-p", "8080", "9080"), option("p"));
+            new SingleValueOptionParser<Serializable>(0, Integer::parseInt).parse(asList("-p", "8080", "9080"), option("p"));
         });
 
         assertEquals("p", e.getOption());
@@ -29,7 +28,7 @@ public class SingleValueOptionParserTest {
     @MethodSource("ListProvider")
     public void should_not_accept_insufficient_argument_for_single_option(List<String> arguments) {
         InsufficientArgumentException e = assertThrows(InsufficientArgumentException.class, () -> {
-            new SingleValueOptionParser<>(Integer::parseInt, 0).parse(arguments, option("p"));
+            new SingleValueOptionParser<>(0, Integer::parseInt).parse(arguments, option("p"));
         });
         assertEquals("p", e.getOption());
     }
@@ -46,7 +45,7 @@ public class SingleValueOptionParserTest {
         Object parsed = new Object();
         Function<String, Object> parser = (it) -> parsed;
         Object whatever = new Object();
-        Object got = new SingleValueOptionParser<>(parser, whatever).parse(asList("-p", "8080"), option("p"));
+        Object got = new SingleValueOptionParser<>(whatever, parser).parse(asList("-p", "8080"), option("p"));
         assertSame(parsed, got);
     }
 
@@ -54,6 +53,6 @@ public class SingleValueOptionParserTest {
     public void should_set_default_value_for_single_option() {
         Object defaultValue = new Object();
         Function<String, Object> whatever = (it) -> null;
-        assertSame(defaultValue, new SingleValueOptionParser<>(whatever, defaultValue).parse(asList(), option("p")));
+        assertSame(defaultValue, new SingleValueOptionParser<>(defaultValue, whatever).parse(asList(), option("p")));
     }
 }
