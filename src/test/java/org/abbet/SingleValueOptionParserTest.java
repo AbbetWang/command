@@ -18,12 +18,12 @@ public class SingleValueOptionParserTest {
     @Test
     public void should_not_accept_extra_argument_for_single_option() {
         TooManyArgumentsException e = assertThrows(TooManyArgumentsException.class, () -> {
-            ((SingleValueOptionParser<? extends Serializable>) new SingleValueOptionParser<Serializable>(Integer::parseInt, 0)).parse(asList("-p", "8080", "9080"), option("p"));
+            new SingleValueOptionParser<Serializable>(Integer::parseInt, 0).parse(asList("-p", "8080", "9080"), option("p"));
         });
 
         assertEquals("p", e.getOption());
     }
-    
+
     @ParameterizedTest()
     @MethodSource("ListProvider")
     public void should_not_accept_insufficient_argument_for_single_option(List<String> arguments) {
@@ -42,11 +42,11 @@ public class SingleValueOptionParserTest {
 
     @Test
     public void should_set_default_value_for_integer_option() {
-        assertEquals(0, new SingleValueOptionParser<Integer>(Integer::parseInt, (Integer) 0).parse(asList(), option("p")));
+        assertEquals(0, new SingleValueOptionParser<>(Integer::parseInt, 0).parse(asList(), option("p")));
     }
 
     @Test
     public void should_set_default_value_for_string_option() {
-        assertEquals("", new SingleValueOptionParser<String>(String::valueOf, "").parse(asList(), option("d")));
+        assertEquals("", new SingleValueOptionParser<>(String::valueOf, "").parse(asList(), option("d")));
     }
 }
