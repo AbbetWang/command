@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleValueOptionParserTest {
 
+    private Object whatever = new Object();
+    private Function<String, Object> parser = (it) -> null;
+
     @Test
     public void should_not_accept_extra_argument_for_single_option() {
         TooManyArgumentsException e = assertThrows(TooManyArgumentsException.class, () -> {
@@ -41,10 +44,13 @@ public class SingleValueOptionParserTest {
     }
 
     @Test
+    public void should_set_int_option_if_use_p() {
+        ArgTest.IntegerOption option = Args.parse(ArgTest.IntegerOption.class, "-p", "8080");
+        assertEquals(8080, option.port());
+    }
+
+    @Test
     public void should_set_default_value_for_single_option() {
-        Object whatever = new Object();
-        Function<String, Object> parser = (it) -> null;
-        Object got = new SingleValueOptionParser<>(parser, whatever).parse(asList(), option("p"));
-        assertSame(whatever, got);
+        assertSame(whatever, new SingleValueOptionParser<>(parser, whatever).parse(asList(), option("p")));
     }
 }
