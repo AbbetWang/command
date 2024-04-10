@@ -23,8 +23,7 @@ public class SingleValueOptionParserTest {
 
         assertEquals("p", e.getOption());
     }
-
-    // TODO: insufficientArguments
+    
     @ParameterizedTest()
     @MethodSource("ListProvider")
     public void should_not_accept_insufficient_argument_for_single_option(List<String> arguments) {
