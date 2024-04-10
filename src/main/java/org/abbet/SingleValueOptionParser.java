@@ -19,6 +19,9 @@ class SingleValueOptionParser<T> implements OptionParse<T> {
         if (index == -1) {
             return defaultValue;
         }
+        if (index + 1 == arguments.size() || arguments.get(index + 1).startsWith("-")) {
+            throw new InsufficientArgumentException(option.value());
+        }
         if (index + 2 < arguments.size() && !arguments.get(index + 2).startsWith("-")) {
             throw new TooManyArgumentsException(option.value());
         }

@@ -1,8 +1,12 @@
 package org.abbet;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static org.abbet.BooleanOptionParserTest.option;
@@ -19,7 +23,23 @@ public class SingleValueOptionParserTest {
 
         assertEquals("p", e.getOption());
     }
+
     // TODO: insufficientArguments
+    @ParameterizedTest()
+    @MethodSource("ListProvider")
+    public void should_not_accept_insufficient_argument_for_single_option(List<String> arguments) {
+        InsufficientArgumentException e = assertThrows(InsufficientArgumentException.class, () -> {
+            new SingleValueOptionParser<>(Integer::parseInt, 0).parse(arguments, option("p"));
+        });
+        assertEquals("p", e.getOption());
+    }
+
+    static Stream ListProvider() {
+        return Stream.of(
+                asList("-p"),
+                asList("-p", "-l")
+        );
+    }
 
     @Test
     public void should_set_default_value_for_integer_option() {
