@@ -114,9 +114,13 @@ public class OptionParsersTest {
 
         @Test
         public void should_throw_illegal_value_exception_if_value_can_not_parsed() {
-            assertThrows(IllegalValueException.class, () -> {
-                OptionParsers.list(Integer[]::new, Integer::parseInt).parse(asList("-d", "a"), option("d"));
-            });
+            Function<String, Object> parser = (it) -> {
+                throw new RuntimeException();
+            };
+            IllegalValueException e = assertThrows(IllegalValueException.class, () -> OptionParsers.list(Integer[]::new, parser).parse(asList("-g", "this", "is"), option("g")));
+            assertEquals("g", e.getOption());
+            assertEquals("this", e.getValue());
+
         }
     }
 
